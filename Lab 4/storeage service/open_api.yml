@@ -1,0 +1,140 @@
+openapi: 3.0.0
+info:
+  description: This is a simple API
+  version: "1.0.0"
+  title: Receives letters being posted and post letters
+  contact:
+    email: tasman.forster@gmail.com
+tags:
+  - name: Devices
+    description: operations for recieveing letters
+paths:
+  /post-office/send:
+    get:
+      tags:
+        - devices
+      summary: Gets the event stats
+      operationId: app.get_send_mail
+      description: Gets mail_ID and address of sent mail
+      parameters:
+        - name: timestamp
+          in: query
+          description: limits number of items on the page
+          schema:
+            type: string
+            format: date-time
+            example: 2016-08-29T09:13:33.001Z
+      responses:
+        '200':
+          description: Successfully returned a list of sentmail
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/sendmail'
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+    post:
+      tags:
+        - Devices
+      summary: sends mail
+      operationId: app.send_mail
+      description: Adds an item to the system
+      responses:
+        '201':
+          description: item created
+        '400':
+          description: 'invalid input, object invalid'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/sendmail'
+        description: sends mail
+  /post-office/recievemail:
+    get:
+      tags:
+        - devices
+      summary: Gets the event stats
+      operationId: app.get_recieve_mail
+      description: Gets mail_ID and address of sent mail
+      parameters:
+        - name: timestamp
+          in: query
+          description: limits number of items on the page
+          schema:
+            type: string
+            format: date-time
+            example: 2016-08-29T09:13:33.001Z
+      responses:
+        '200':
+          description: Successfully returned a list of address'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/recievemail'
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+    post:
+      tags:
+        - Devices
+      summary: recieves mail
+      operationId: app.recieve_mail
+      description: Adds an item to the system
+      responses:
+        '201':
+          description: item created
+        '400':
+          description: 'invalid input, object invalid'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/recievemail'
+        description: Recieves mail
+
+components:
+  schemas:
+    sendmail:
+      type: object
+      required:
+        - mail_ID
+        - address
+      properties:
+        mail_ID:
+          type: string
+          format: uuid
+          example: 371f1ee-6c54-4c95-90e6-d701748f0851
+        address:
+          type: string
+          example: '112233 Homer Av'
+    recievemail:
+      required:
+        - mail_ID
+        - address
+      properties:
+        mail_ID:
+          type: string
+          format: uuid
+          example: 696f1cc-6c54-4b01-90e6-d701748f0851
+        address:
+          type: string
+          example: '123 Seaseme street'
+      type: object
