@@ -1,7 +1,0 @@
-version: 1
-datastore:
-  user: "events"
-  password: "password"
-  hostname: "localhost"
-  port: "3306"
-  db: "events"

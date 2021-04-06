@@ -1,5 +1,0 @@
-Version: 1
-eventstore1:
-  url: http://localhost:8090/post-office/recievemail
-eventstore2:
-  url: http://localhost:8090/post-office/send
